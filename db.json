@@ -6,7 +6,8 @@
       "image": "./assets/current-exhibit.jpg",
       "artist_name": "Evans",
       "description": "A modern interpretation of our contemporary independence from expressionism as told through a surrealist dialogue between abstract cubism and rococo fauvism. The great artist Evans believed only the majestic Giraffe could help tell a story like this. Tickets start at $9.99 (free for children below 21).",
-      "tickets_bought": 173,
+      "tickets_bought": 271,
+      "money-earned": 0,
       "comments": [
         "I don't know what this is...",
         "What in the heckin' heck?",
@@ -22,7 +23,8 @@
         "წავიდოდა კაცი ჟირაფების სანახავად!",
         "ტესტი ტესტი",
         "ვააა მუშაობს",
-        "აქ იყო ტაბო ^^"
+        "აქ იყო ტაბო ^^",
+        "yooo"
       ]
     }
   ]

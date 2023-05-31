@@ -9,12 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 function showExhibitElement (exhibitElement) {
-    console.log (exhibitElement[0]);
-    console.log (typeof(exhibitElement));
+    //console.log (exhibitElement[0]);
+    //console.log (typeof(exhibitElement));
     const artistName = document.querySelector("h3");
     const main = document.querySelector("main.two-columns")
     const divMain = main.querySelector("div");
-    console.log(artistName);
+    //console.log(artistName);
     artistName.textContent += ' ' + exhibitElement[0]['artist_name'];
     //divMain.appendChild(artistName);
     const exhibitTitle = document.querySelector('h2#exhibit-title');
@@ -23,12 +23,16 @@ function showExhibitElement (exhibitElement) {
     const ticketSold = document.querySelector("p#tickets-bought");
     ticketSold.textContent = `${exhibitElement[0]['tickets_bought']} Tickets Bought`
 
+    const moneyEarned = document.querySelector('p#money-earned');
+    const money = (+exhibitElement[0]['tickets_bought'] * 9.99).toFixed(2);
+    moneyEarned.textContent = `${money}$ Earned Totally.`
+
     const exhibitDescription = document.querySelector("p#exhibit-description");
     exhibitDescription.textContent = `${exhibitElement[0]["description"]}`;
 
     const commentArray = exhibitElement[0].comments;
     const commentsDiv = document.querySelector('div#comments-section');
-    console.log(commentArray);
+    //console.log(commentArray);
     for (let i=0; i<commentArray.length;i++) {   
         const pTagComments = document.createElement("p");
         pTagComments.textContent = commentArray[i];
@@ -51,10 +55,23 @@ function incSoldTickets (event,element) {
     const soldTickets = +event.target.nextElementSibling.textContent.split(' ')[0] + 1           //element['tickets_bought'] + 1;
     const soldTicketsUpdate = event.target.nextElementSibling;
 
-    //const tickets = parseInt(soldTickets.textContent.split(' ')[0]);
-    console.log(soldTickets,soldTicketsUpdate);
-    console.log(event.target)
-    console.log(element);
+    let bDate = document.querySelector('input#birthday').value;
+    bDate = new Date(bDate);
+    const currentDate = new Date();
+    const ageInMilliseconds = currentDate - bDate;
+    const ageInYears = Math.floor(ageInMilliseconds / (1000 * 60 * 60 * 24 * 365.25));
+
+    let money = document.querySelector("p#money-earned").textContent;
+    console.log(money);
+    if (+ageInYears >= 21) {
+        money = (+money.split('$')[0] + 9.99).toFixed(2);
+    } else {
+        money = (+money.split('$')[0]).toFixed(2);
+    }
+    console.log(money);
+
+    //console.log(birthDate,'   ',typeof(birthDate));
+
     const updatedTickets = {tickets_bought: soldTickets}
     const URL = `http://localhost:3000/current-exhibits/${element.id}`;
     fetch (URL, {
@@ -66,7 +83,10 @@ function incSoldTickets (event,element) {
         body: JSON.stringify(updatedTickets)
     })
     .then (response => response.json())
-    .then (updatedExhib => soldTicketsUpdate.textContent = `${soldTickets} Tickets Bought`)
+    .then (updatedExhib => {
+        soldTicketsUpdate.textContent = `${soldTickets} Tickets Bought`;
+        document.querySelector("p#money-earned").textContent = `${money}$ Earned Totally.`
+    })
     .catch (error => alert(error.massage))
 }
 
